@@ -1,0 +1,89 @@
+TRACKING PSEUDO CODE 
+
+IF enemie's x coordinate does not equal player's x coordinate
+    THEN:
+    Create a variable to store the slope between the player and the enemy
+    Create a variable to store the updated enemy's x coordinate(incremented/decremented)
+    Create a variable to store the updated enemy's y coordinate(determined by point slope formula)
+
+    CASE 1:
+    Enemy's x coordinate is less than that of the player's x coordinate
+    THEN:
+        Increment the enemy's x coordinate
+
+        IF enemy's x coordinate goes beyond player's x coordinate
+        Then:
+            Make enemy's x equal player's x to avoid jittering
+
+    
+    Case 2:
+    Enemy's x coordinate is greater than that of the player's x coordinate
+    THEN:
+        Decrement the enemy's x coordinate
+
+        IF enemy's x coordinate goes beyond player's x coordinate
+        Then:
+            Make enemy's x equal player's x to avoid jittering
+
+    Calculate enemy's updated y coordinate using point slope formula
+    y = m * (enemy's x coordinate - updated enemy's x coordinate) + enemy's y coordinate  
+
+    UPDATE enemy's coordinates
+
+ELSE // MEANING X'S ARE EQUAL BUT UNSURE IF Y'S ARE
+
+    Case 1:
+    IF enemy's y is less than player's y 
+    THEN:
+        Increment enemy's y
+    
+    Case 2:
+    IF enemy's y is greter than player's y
+    THEN:
+        Decrement enemy's y
+
+
+C++ CODE:
+if(mx != point->getX())
+    {
+        float m = -1 *((my - point->getY()) / (mx - point->getX()));
+        float x_1;
+        float y;
+        
+        if(point->getX() < mx)
+        {
+            x_1 = point->getX() + 0.01f; //CAN ADJUST SPEED
+            
+            //AVOID JITTERING
+            if(x_1 > mx)
+                x_1 = mx;
+        }
+        else if (point->getX() > mx)
+        {
+            x_1 = point->getX() - 0.01f; //CAN ADJUST SPEED
+            
+            //AVOID JITTERING
+            if(x_1 < mx)
+                x_1 = mx;
+        }
+        
+        //FORMULATE Y
+        y = m * (point->getX() - x_1) + point->getY();
+        
+        //UPDATE COORDINATES
+        point->setX(x_1);
+        point->setY(y);
+    
+    }
+    else
+    {
+        if(point->getY() < my)
+            point->setY(point->getY() + 0.001); //CAN ADJUST SPEED
+        
+        else if(point->getY() > my)
+            point->setY(point->getY() - 0.001); 
+        
+    }
+    
+    redraw();	//GENERATE NEW IMAGE
+
